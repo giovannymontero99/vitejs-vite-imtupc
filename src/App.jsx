@@ -5,16 +5,16 @@ function App() {
   const [pokeData, setPokeData] = useState([]);
 
   useEffect(() => {
-    let getData = async () => {
-      const response = await fetch('https://pokeapi.co/api/v2/pokemon');
-      const responseJson = await response.json();
-      responseJson.results.forEach(async (element) => {
-        const res = await fetch(element.url);
-        const resJson = await res.json();
-        setPokeData((pokeData) => [resJson, ...pokeData]);
-      });
+    let getAllData = async (url = '') => {
+      try {
+        const response = await fetch(url);
+        if (!response.ok) throw new Error();
+        console.log(response.ok);
+      } catch (err) {
+        console.error(err);
+      }
     };
-    getData();
+    return () => getAllData('https://pokeapi.co/api/v2/pokemon');
   }, []);
 
   return (
