@@ -8,7 +8,11 @@ function App() {
     let getData = async () => {
       const response = await fetch('https://pokeapi.co/api/v2/pokemon');
       const responseJson = await response.json();
-      console.log(responseJson.results);
+      responseJson.results.forEach(async (element) => {
+        const res = await fetch(element.url);
+        const resJson = await res.json();
+        setPokeData((pokeData) => [resJson, ...pokeData]);
+      });
     };
     getData();
   }, []);
